@@ -7,4 +7,5 @@ public class Tags : MonoBehaviour {
 	public const string ghost = "Ghost";
 	public const string gameController = "GameController";
 	public const string scenarioWall = "ScenarioWall";
+	public const string node = "Node";
 }

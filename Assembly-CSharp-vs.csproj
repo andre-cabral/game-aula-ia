@@ -46,6 +46,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AI\Node.cs" />
+     <Compile Include="Assets\Scripts\AI\Pathfinding.cs" />
      <Compile Include="Assets\Scripts\NamesPatterns\Buttons.cs" />
      <Compile Include="Assets\Scripts\NamesPatterns\Layers.cs" />
      <Compile Include="Assets\Scripts\NamesPatterns\PacmanoAnimationHashes.cs" />

@@ -1,15 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Pacmano\PacmanoMovement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AI\Pathfinding.cs">
     <Files>
-      <File FileName="Assets\Scripts\NamesPatterns\PacmanoAnimationHashes.cs" Line="6" Column="37" />
-      <File FileName="..\InfiniteRunner\Assets\Scripts\NamesPatterns\PlayerAnimatorHashes.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Pacmano\PacmanoMovement.cs" Line="25" Column="76" />
-      <File FileName="Assets\Scripts\NamesPatterns\Buttons.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\NamesPatterns\Tags.cs" Line="9" Column="14" />
-      <File FileName="Assets\Scripts\NamesPatterns\Layers.cs" Line="4" Column="38" />
-      <File FileName="..\2d_test_plataformer_2014_08_10\Assets\Scripts\Die Roboter\DieRoboterMovement.cs" Line="93" Column="3" />
-      <File FileName="..\InfiniteRunner\Assets\Scripts\NamesPatterns\Layers.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\AI\Pathfinding.cs" Line="121" Column="1" />
+      <File FileName="Assets\Scripts\NamesPatterns\Tags.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\AI\Node.cs" Line="34" Column="33" />
+      <File FileName="..\2d_test_plataformer\Assets\Scripts\Enemy\Movements\Stalker\StalkerMovement.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
