@@ -21,11 +21,12 @@ public class Node {
 		this.nodePosition = worldPosition;
 	}
 
-	public List<Node> findNeighbours(List<Node> allNodes, float objectThickness){
+	public List<Node> findNeighbours(List<Node> allNodes, float objectThickness, bool checkPlayerCollider){
 		List<Node> neighbours = new List<Node>();
 
 		foreach(Node newNode in allNodes){
 			bool collidedWithWall = false;
+			bool collidedWithPlayer = false;
 
 			//checks if the node is not the same node
 			bool sameNode = (newNode.nodePosition == nodePosition);
@@ -37,8 +38,11 @@ public class Node {
 				if(collidersFound.collider.gameObject.tag == Tags.scenarioWall){
 					collidedWithWall = true;
 				}
+				if(collidersFound.collider.gameObject.tag == Tags.player && checkPlayerCollider){
+					collidedWithPlayer = true;
+				}
 			}
-			if(!collidedWithWall && !sameNode){
+			if(!collidedWithWall && !collidedWithPlayer && !sameNode){
 				neighbours.Add(newNode);
 			}
 
@@ -46,4 +50,5 @@ public class Node {
 
 		return neighbours;
 	}
+
 }

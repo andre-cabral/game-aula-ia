@@ -2,9 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AI\Pathfinding.cs">
     <Files>
-      <File FileName="Assets\Scripts\AI\Pathfinding.cs" Line="121" Column="1" />
+      <File FileName="Assets\Scripts\AI\Pathfinding.cs" Line="198" Column="5" />
       <File FileName="Assets\Scripts\NamesPatterns\Tags.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AI\Node.cs" Line="34" Column="33" />
+      <File FileName="Assets\Scripts\AI\Node.cs" Line="18" Column="2" />
       <File FileName="..\2d_test_plataformer\Assets\Scripts\Enemy\Movements\Stalker\StalkerMovement.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
