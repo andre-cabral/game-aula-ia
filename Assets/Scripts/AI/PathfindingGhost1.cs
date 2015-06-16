@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Pathfinding : MonoBehaviour {
+public class PathfindingGhost1 : MonoBehaviour {
 
 	public Transform startObjectTransform;
 	public Transform endObjectTransform;
-	public float objectThickness = 1f;
+	public float objectThickness = 0.95f;
 	public float speed = 0.1f;
 	public float maxDistanceFromTarget = 0.3f;
 	public bool escaping = false;
@@ -17,41 +17,62 @@ public class Pathfinding : MonoBehaviour {
 
 	void Awake(){
 		GameObject[] nodesGameObjects = GameObject.FindGameObjectsWithTag(Tags.node);
-
 		foreach(GameObject nodeGameObject in nodesGameObjects){
-			allNodes.Add (new Node(nodeGameObject.transform.localPosition));
+			allNodes.Add (new Node(nodeGameObject.transform.localPosition, objectThickness));
 		}
+		Node endNode = new Node(endObjectTransform.position, objectThickness);
+
+		AllNodes.allNodes = allNodes;
+		AllNodes.endNode = endNode;
+
+		foreach(Node node in allNodes){
+			node.InitNeighbours(objectThickness);
+		}
+
+		AllNodes.allNodes = allNodes;
 	}
 
 	void Update(){
 		if(!escaping){
-			FindPath(startObjectTransform.position, endObjectTransform.position);
+			FollowPlayer();
 		}else{
-			Node mostDistantNode = new Node(endObjectTransform.position);
-			float mostDistantNodeDistance = 0f;
-			foreach(Node node in allNodes){
-				if(mostDistantNodeDistance < Vector2.Distance(node.nodePosition, endObjectTransform.position)){
-					mostDistantNodeDistance = Vector2.Distance(node.nodePosition, endObjectTransform.position);
-					mostDistantNode = new Node(node.nodePosition);
-				}
-			}
-			Debug.Log(mostDistantNode.nodePosition);
-			FindPathEscape(startObjectTransform.position, mostDistantNode.nodePosition);
+			EscapeToFurthestNode();
 		}
 		Move();
+	}
+
+	void FollowPlayer(){
+		FindPath(startObjectTransform.position, endObjectTransform.position);
+	}
+
+	void EscapeToFurthestNode(){
+		Node mostDistantNode = new Node(endObjectTransform.position, objectThickness);
+		float mostDistantNodeDistance = 0f;
+		foreach(Node node in allNodes){
+			if(mostDistantNodeDistance < Vector2.Distance(node.nodePosition, endObjectTransform.position)){
+				mostDistantNodeDistance = Vector2.Distance(node.nodePosition, endObjectTransform.position);
+				mostDistantNode = new Node(node.nodePosition, objectThickness);
+			}
+		}
+		FindPath(startObjectTransform.position, mostDistantNode.nodePosition);
 	}
 
 	//#####FINDPATH START
 	//###################
 	void FindPath(Vector3 startPosition, Vector3 endPosition){
 		//transforms the start and end objects positions into Node objects
-		Node startNode = new Node(startPosition);
-		Node endNode = new Node(endPosition);
+		Node startNode = new Node(startPosition, objectThickness);
+		Node endNode = new Node(endPosition, objectThickness);
+		startNode.InitNeighbours(objectThickness);
+		//endNode.InitNeighbours(objectThickness);
+
+		AllNodes.endNode = endNode;
 
 		//create a List with all the nodes and includes the end node.
+		/*
 		List<Node> allNodesWithEndNode = new List<Node>(allNodes);
 		allNodesWithEndNode.Add(endNode);
-
+		*/
 		List<Node> openSet = new List<Node>();
 		HashSet<Node> closedSet = new HashSet<Node>();
 
@@ -80,8 +101,7 @@ public class Pathfinding : MonoBehaviour {
 				return;
 			}
 
-
-			foreach(Node neighbour in currentNode.findNeighbours(allNodesWithEndNode, objectThickness, false)){
+			foreach(Node neighbour in currentNode.getNeighbours(endNode, escaping)){
 				//go to the next node if the node is in the closedset
 				if (closedSet.Contains(neighbour)) {
 					continue;
@@ -112,13 +132,17 @@ public class Pathfinding : MonoBehaviour {
 	//###################
 	void FindPathEscape(Vector3 startPosition, Vector3 endPosition){
 		//transforms the start and end objects positions into Node objects
-		Node startNode = new Node(startPosition);
-		Node endNode = new Node(endPosition);
-		
+		Node startNode = new Node(startPosition, objectThickness);
+		Node endNode = new Node(endPosition, objectThickness);
+
+		List<Node> allNodesWithEndNode = allNodes;
+		allNodesWithEndNode.Add(endNode);
+
 		//create a List with all the nodes and includes the end node.
+		/*
 		List<Node> allNodesWithEndNode = new List<Node>(allNodes);
 		allNodesWithEndNode.Add(endNode);
-		
+		*/
 		List<Node> openSet = new List<Node>();
 		HashSet<Node> closedSet = new HashSet<Node>();
 		
@@ -148,7 +172,7 @@ public class Pathfinding : MonoBehaviour {
 			}
 			
 			
-			foreach(Node neighbour in currentNode.findNeighbours(allNodesWithEndNode, objectThickness, true)){
+			foreach(Node neighbour in currentNode.getNeighbours(endNode, true)){
 				//go to the next node if the node is in the closedset
 				if (closedSet.Contains(neighbour)) {
 					continue;
@@ -195,7 +219,7 @@ public class Pathfinding : MonoBehaviour {
 	void Move(){
 		if(path.Count > 0){
 			if(!(maxDistanceFromTarget >= Vector2.Distance(transform.position, path[0].nodePosition)) ){
-				Debug.DrawLine(transform.position, path[0].nodePosition);
+				//Debug.DrawLine(transform.position, path[0].nodePosition);
 				transform.position = Vector2.MoveTowards(transform.position, path[0].nodePosition, speed);
 			}
 		}
