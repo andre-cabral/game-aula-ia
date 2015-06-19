@@ -1,19 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AI\PathfindingGhost2.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AI\Node.cs">
     <Files>
-      <File FileName="PacMano.sln" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AI\PathfindingGhost1.cs" Line="107" Column="11" />
-      <File FileName="Assets\Scripts\AI\Node.cs" Line="37" Column="57" />
-      <File FileName="Assets\Scripts\createpills.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Pacmano\PacmanoMovement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\NamesPatterns\Tags.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AI\AllNodes.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\NamesPatterns\Layers.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Items\Pacote.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AI\PathfindingGhost2.cs" Line="75" Column="2" />
-      <File FileName="Assets\Scripts\AI\PathfindingGhost3.cs" Line="5" Column="31" />
-      <File FileName="Assets\Scripts\AI\PathfindingGhost4.cs" Line="5" Column="31" />
+      <File FileName="Assets\Scripts\AI\PathfindingGhost2.cs" Line="151" Column="84" />
+      <File FileName="Assets\Scripts\AI\Node.cs" Line="59" Column="116" />
+      <File FileName="Assets\Scripts\AI\PathfindingGhost1.cs" Line="107" Column="84" />
+      <File FileName="Assets\Scripts\AI\PathfindingGhost3.cs" Line="107" Column="84" />
+      <File FileName="Assets\Scripts\AI\PathfindingGhost4.cs" Line="107" Column="84" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

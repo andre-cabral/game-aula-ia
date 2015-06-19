@@ -10,6 +10,7 @@ public class PathfindingGhost3 : MonoBehaviour {
 	public float speed = 0.1f;
 	public float maxDistanceFromTarget = 0.3f;
 	public bool escaping = false;
+	string ghostName;
 	
 	List<Node> allNodes = new List<Node>();
 	
@@ -30,6 +31,8 @@ public class PathfindingGhost3 : MonoBehaviour {
 		}
 		
 		AllNodes.allNodes = allNodes;
+		
+		ghostName = transform.gameObject.name;
 	}
 	
 	void Update(){
@@ -101,7 +104,7 @@ public class PathfindingGhost3 : MonoBehaviour {
 				return;
 			}
 			
-			foreach(Node neighbour in currentNode.getNeighbours(endNode, escaping)){
+			foreach(Node neighbour in currentNode.getNeighbours(endNode, escaping, ghostName)){
 				//go to the next node if the node is in the closedset
 				if (closedSet.Contains(neighbour)) {
 					continue;

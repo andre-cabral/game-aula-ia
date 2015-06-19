@@ -15,6 +15,7 @@ public class PathfindingGhost2 : MonoBehaviour {
 	public int patrolIndex = 0;
 	public bool escaping = false;
 	public bool huntingPlayer = false;
+	string ghostName;
 	
 	List<Node> allNodes = new List<Node>();
 	
@@ -35,6 +36,8 @@ public class PathfindingGhost2 : MonoBehaviour {
 		}
 		
 		AllNodes.allNodes = allNodes;
+		
+		ghostName = transform.gameObject.name;
 	}
 	
 	void Update(){
@@ -145,7 +148,7 @@ public class PathfindingGhost2 : MonoBehaviour {
 				return;
 			}
 			
-			foreach(Node neighbour in currentNode.getNeighbours(endNode, escaping)){
+			foreach(Node neighbour in currentNode.getNeighbours(endNode, escaping, ghostName)){
 				//go to the next node if the node is in the closedset
 				if (closedSet.Contains(neighbour)) {
 					continue;
