@@ -52,11 +52,12 @@
      <Compile Include="Assets\Scripts\AI\PathfindingGhost2.cs" />
      <Compile Include="Assets\Scripts\AI\PathfindingGhost3.cs" />
      <Compile Include="Assets\Scripts\AI\PathfindingGhost4.cs" />
-     <Compile Include="Assets\Scripts\Items\Pacote.cs" />
+     <Compile Include="Assets\Scripts\GameController\PillTimeController.cs" />
      <Compile Include="Assets\Scripts\NamesPatterns\Buttons.cs" />
      <Compile Include="Assets\Scripts\NamesPatterns\Layers.cs" />
      <Compile Include="Assets\Scripts\NamesPatterns\PacmanoAnimationHashes.cs" />
      <Compile Include="Assets\Scripts\NamesPatterns\Tags.cs" />
+     <Compile Include="Assets\Scripts\Pacmano\CollisionsController.cs" />
      <Compile Include="Assets\Scripts\Pacmano\PacmanoMovement.cs" />
      <Compile Include="Assets\Scripts\createpills.cs" />
  <Reference Include="UnityEngine.UI">

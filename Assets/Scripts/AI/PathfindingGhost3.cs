@@ -9,8 +9,11 @@ public class PathfindingGhost3 : MonoBehaviour {
 	public float objectThickness = 0.95f;
 	public float speed = 0.1f;
 	public float maxDistanceFromTarget = 0.3f;
-	public bool escaping = false;
+	bool foundRandomPoint = true;
+	Node randomPointNode;
 	string ghostName;
+	SpriteRenderer spriteRenderer;
+	PillTimeController pillTimeController;
 	
 	List<Node> allNodes = new List<Node>();
 	
@@ -18,6 +21,8 @@ public class PathfindingGhost3 : MonoBehaviour {
 	
 	void Awake(){
 		GameObject[] nodesGameObjects = GameObject.FindGameObjectsWithTag(Tags.node);
+		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+		pillTimeController = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<PillTimeController>();
 		foreach(GameObject nodeGameObject in nodesGameObjects){
 			allNodes.Add (new Node(nodeGameObject.transform.localPosition, objectThickness));
 		}
@@ -36,12 +41,31 @@ public class PathfindingGhost3 : MonoBehaviour {
 	}
 	
 	void Update(){
-		if(!escaping){
-			FollowPlayer();
+		if(!pillTimeController.getGhostsEscaping()){
+			if(spriteRenderer.color != Color.white){
+				spriteRenderer.color = Color.white;
+			}
+			RandomPoint();
 		}else{
+			if(spriteRenderer.color != Color.blue){
+				spriteRenderer.color = Color.blue;
+			}
 			EscapeToFurthestNode();
 		}
 		Move();
+	}
+
+	void RandomPoint(){
+		if(foundRandomPoint){
+			randomPointNode = new Node(allNodes[Random.Range(0, allNodes.Count-1)].nodePosition, objectThickness);
+			foundRandomPoint = false;
+		}else{
+			if((maxDistanceFromTarget <= Vector2.Distance(transform.position, randomPointNode.nodePosition))){
+				FindPath(startObjectTransform.position, randomPointNode.nodePosition);
+			}else{
+				foundRandomPoint = true;
+			}
+		}
 	}
 	
 	void FollowPlayer(){
@@ -104,7 +128,7 @@ public class PathfindingGhost3 : MonoBehaviour {
 				return;
 			}
 			
-			foreach(Node neighbour in currentNode.getNeighbours(endNode, escaping, ghostName)){
+			foreach(Node neighbour in currentNode.getNeighbours(endNode, pillTimeController.getGhostsEscaping(), ghostName)){
 				//go to the next node if the node is in the closedset
 				if (closedSet.Contains(neighbour)) {
 					continue;

@@ -9,8 +9,11 @@ public class PathfindingGhost4 : MonoBehaviour {
 	public float objectThickness = 0.95f;
 	public float speed = 0.1f;
 	public float maxDistanceFromTarget = 0.3f;
-	public bool escaping = false;
+	public float minDistanceToFollowPlayerWhenEscaping;
+	public float maxPillTimeRemainingToFollowPlayerWhenEscaping;
 	string ghostName;
+	SpriteRenderer spriteRenderer;
+	PillTimeController pillTimeController;
 	
 	List<Node> allNodes = new List<Node>();
 	
@@ -18,6 +21,8 @@ public class PathfindingGhost4 : MonoBehaviour {
 	
 	void Awake(){
 		GameObject[] nodesGameObjects = GameObject.FindGameObjectsWithTag(Tags.node);
+		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+		pillTimeController = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<PillTimeController>();
 		foreach(GameObject nodeGameObject in nodesGameObjects){
 			allNodes.Add (new Node(nodeGameObject.transform.localPosition, objectThickness));
 		}
@@ -36,16 +41,28 @@ public class PathfindingGhost4 : MonoBehaviour {
 	}
 	
 	void Update(){
-		if(!escaping){
+		if(!pillTimeController.getGhostsEscaping()){
+			if(spriteRenderer.color != Color.white){
+				spriteRenderer.color = Color.white;
+			}
 			FollowPlayer();
 		}else{
-			EscapeToFurthestNode();
+			if(spriteRenderer.color != Color.blue){
+				spriteRenderer.color = Color.blue;
+			}
+
+			if(pillTimeController.getPillTimeRemaining() < maxPillTimeRemainingToFollowPlayerWhenEscaping &&
+			   Vector2.Distance(startObjectTransform.position, endObjectTransform.position) >= minDistanceToFollowPlayerWhenEscaping){
+				FollowPlayer();
+			}else{
+				EscapeToFurthestNode();
+			}
 		}
 		Move();
 	}
 	
 	void FollowPlayer(){
-		FindPath(startObjectTransform.position, endObjectTransform.position);
+		FindPath(startObjectTransform.position, endObjectTransform.position, false);
 	}
 	
 	void EscapeToFurthestNode(){
@@ -57,12 +74,12 @@ public class PathfindingGhost4 : MonoBehaviour {
 				mostDistantNode = new Node(node.nodePosition, objectThickness);
 			}
 		}
-		FindPath(startObjectTransform.position, mostDistantNode.nodePosition);
+		FindPath(startObjectTransform.position, mostDistantNode.nodePosition, true);
 	}
 	
 	//#####FINDPATH START
 	//###################
-	void FindPath(Vector3 startPosition, Vector3 endPosition){
+	void FindPath(Vector3 startPosition, Vector3 endPosition, bool escaping){
 		//transforms the start and end objects positions into Node objects
 		Node startNode = new Node(startPosition, objectThickness);
 		Node endNode = new Node(endPosition, objectThickness);

@@ -47,6 +47,7 @@ public class Node {
 			if( CheckEndNode(endNode, checkPlayerCollider) ){
 				neighboursCheckPlayerColliderWithEndNode.Add(endNode);
 			}
+			neighboursCheckPlayerColliderWithEndNode = CheckGhostsColliders(neighboursCheckPlayerColliderWithEndNode, ghostName);
 			return neighboursCheckPlayerColliderWithEndNode;
 		}
 	}

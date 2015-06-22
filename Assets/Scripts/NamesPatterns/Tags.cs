@@ -9,4 +9,5 @@ public class Tags : MonoBehaviour {
 	public const string scenarioWall = "ScenarioWall";
 	public const string node = "Node";
 	public const string pacote = "Pacote";
+	public const string superPacote = "SuperPacote";
 }

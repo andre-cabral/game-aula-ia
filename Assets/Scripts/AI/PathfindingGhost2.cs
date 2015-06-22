@@ -13,9 +13,10 @@ public class PathfindingGhost2 : MonoBehaviour {
 	public float distanceToStartFollowingPlayer = 10f;
 	public float distanceToStopFollowingPlayer = 20f;
 	public int patrolIndex = 0;
-	public bool escaping = false;
 	public bool huntingPlayer = false;
 	string ghostName;
+	SpriteRenderer spriteRenderer;
+	PillTimeController pillTimeController;
 	
 	List<Node> allNodes = new List<Node>();
 	
@@ -23,6 +24,8 @@ public class PathfindingGhost2 : MonoBehaviour {
 	
 	void Awake(){
 		GameObject[] nodesGameObjects = GameObject.FindGameObjectsWithTag(Tags.node);
+		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+		pillTimeController = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<PillTimeController>();
 		foreach(GameObject nodeGameObject in nodesGameObjects){
 			allNodes.Add (new Node(nodeGameObject.transform.localPosition, objectThickness));
 		}
@@ -43,12 +46,21 @@ public class PathfindingGhost2 : MonoBehaviour {
 	void Update(){
 		CheckDistanceFromPlayer();
 
-		if(!escaping && huntingPlayer){
+		if(!pillTimeController.getGhostsEscaping() && huntingPlayer){
+			if(spriteRenderer.color != Color.white){
+				spriteRenderer.color = Color.white;
+			}
 			FollowPlayer();
-		}else if(!escaping && !huntingPlayer){
+		}else if(!pillTimeController.getGhostsEscaping() && !huntingPlayer){
+			if(spriteRenderer.color != Color.white){
+				spriteRenderer.color = Color.white;
+			}
 			Patrol ();
 		}
 		else{
+			if(spriteRenderer.color != Color.blue){
+				spriteRenderer.color = Color.blue;
+			}
 			EscapeToFurthestNode();
 		}
 
@@ -148,7 +160,7 @@ public class PathfindingGhost2 : MonoBehaviour {
 				return;
 			}
 			
-			foreach(Node neighbour in currentNode.getNeighbours(endNode, escaping, ghostName)){
+			foreach(Node neighbour in currentNode.getNeighbours(endNode, pillTimeController.getGhostsEscaping(), ghostName)){
 				//go to the next node if the node is in the closedset
 				if (closedSet.Contains(neighbour)) {
 					continue;

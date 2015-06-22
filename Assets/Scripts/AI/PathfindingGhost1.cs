@@ -9,8 +9,9 @@ public class PathfindingGhost1 : MonoBehaviour {
 	public float objectThickness = 0.95f;
 	public float speed = 0.1f;
 	public float maxDistanceFromTarget = 0.3f;
-	public bool escaping = false;
 	string ghostName;
+	SpriteRenderer spriteRenderer;
+	PillTimeController pillTimeController;
 
 	List<Node> allNodes = new List<Node>();
 
@@ -18,6 +19,8 @@ public class PathfindingGhost1 : MonoBehaviour {
 
 	void Awake(){
 		GameObject[] nodesGameObjects = GameObject.FindGameObjectsWithTag(Tags.node);
+		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+		pillTimeController = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<PillTimeController>();
 		foreach(GameObject nodeGameObject in nodesGameObjects){
 			allNodes.Add (new Node(nodeGameObject.transform.localPosition, objectThickness));
 		}
@@ -36,9 +39,15 @@ public class PathfindingGhost1 : MonoBehaviour {
 	}
 
 	void Update(){
-		if(!escaping){
+		if(!pillTimeController.getGhostsEscaping()){
+			if(spriteRenderer.color != Color.white){
+				spriteRenderer.color = Color.white;
+			}
 			FollowPlayer();
 		}else{
+			if(spriteRenderer.color != Color.blue){
+				spriteRenderer.color = Color.blue;
+			}
 			EscapeToFurthestNode();
 		}
 		Move();
@@ -104,7 +113,7 @@ public class PathfindingGhost1 : MonoBehaviour {
 				return;
 			}
 
-			foreach(Node neighbour in currentNode.getNeighbours(endNode, escaping, ghostName)){
+			foreach(Node neighbour in currentNode.getNeighbours(endNode, pillTimeController.getGhostsEscaping(), ghostName)){
 				//go to the next node if the node is in the closedset
 				if (closedSet.Contains(neighbour)) {
 					continue;
