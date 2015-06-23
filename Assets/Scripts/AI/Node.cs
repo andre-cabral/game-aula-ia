@@ -22,6 +22,10 @@ public class Node {
 		this.nodePosition = worldPosition;
 	}
 
+	public List<Node> getNeighboursWithoutEndNode(){
+		return neighbours;
+	}
+
 	public List<Node> getNeighbours(Node endNode, bool checkPlayerCollider, string ghostName){
 		if(!checkPlayerCollider){
 			List<Node> neighboursWithEndNode = new List<Node>(neighbours);

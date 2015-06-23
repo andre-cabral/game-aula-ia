@@ -78,9 +78,34 @@ public class PathfindingGhost3 : MonoBehaviour {
 		foreach(Node node in allNodes){
 			if(mostDistantNodeDistance < Vector2.Distance(node.nodePosition, endObjectTransform.position)){
 				mostDistantNodeDistance = Vector2.Distance(node.nodePosition, endObjectTransform.position);
-				mostDistantNode = new Node(node.nodePosition, objectThickness);
+				mostDistantNode = node;
 			}
 		}
+
+		bool haveObject = false;
+		
+		foreach(Collider2D collider in Physics2D.OverlapCircleAll(mostDistantNode.nodePosition, maxDistanceFromTarget)){
+			if(collider.gameObject.name != gameObject.name && collider.tag == Tags.ghost){
+				haveObject = true;
+			}
+		}
+		
+		while(haveObject){
+			mostDistantNode = mostDistantNode.getNeighboursWithoutEndNode()[0];
+			bool checkObjects = false;
+			foreach(Collider2D collider in Physics2D.OverlapCircleAll(mostDistantNode.nodePosition, maxDistanceFromTarget)){
+				if(collider.gameObject.name != gameObject.name && collider.tag == Tags.ghost){
+					checkObjects = true;
+				}
+			}
+			
+			if(maxDistanceFromTarget <= Vector2.Distance(transform.position, mostDistantNode.nodePosition)){
+				checkObjects = false;
+			}
+			
+			haveObject = checkObjects;
+		}
+
 		FindPath(startObjectTransform.position, mostDistantNode.nodePosition);
 	}
 	
